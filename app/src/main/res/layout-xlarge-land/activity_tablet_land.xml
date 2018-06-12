@@ -33,7 +33,7 @@
 
             <fragment
                 android:id="@+id/fragment"
-                android:name="com.example.mateusz.astroweather2.sunFragment"
+                android:name="com.example.mateusz.astroweather2.fragments.sunFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
@@ -41,7 +41,7 @@
 
             <fragment
                 android:id="@+id/fragment4"
-                android:name="com.example.mateusz.astroweather2.moonFragment"
+                android:name="com.example.mateusz.astroweather2.fragments.moonFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"

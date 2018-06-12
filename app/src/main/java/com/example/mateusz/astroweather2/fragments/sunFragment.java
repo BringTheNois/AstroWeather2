@@ -1,4 +1,4 @@
-package com.example.mateusz.astroweather2;
+package com.example.mateusz.astroweather2.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.astrocalculator.AstroCalculator;
 import com.astrocalculator.AstroDateTime;
+import com.example.mateusz.astroweather2.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

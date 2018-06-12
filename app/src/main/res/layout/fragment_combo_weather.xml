@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.comboWeatherFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="horizontal">
+
+            <fragment
+                android:id="@+id/fragment3"
+                android:name="com.example.mateusz.astroweather2.fragments.simpleWeatherFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                tools:layout="@layout/fragment_simple_weather" />
+
+            <fragment
+                android:id="@+id/fragment7"
+                android:name="com.example.mateusz.astroweather2.fragments.windFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                tools:layout="@layout/fragment_wind" />
+        </LinearLayout>
+
+        <fragment
+            android:id="@+id/fragment2"
+            android:name="com.example.mateusz.astroweather2.fragments.futureWeatherFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
+            tools:layout="@layout/fragment_futere_weather" />
+
+    </LinearLayout>
+</FrameLayout>

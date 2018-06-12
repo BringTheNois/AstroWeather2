@@ -1,14 +1,16 @@
-package com.example.mateusz.astroweather2;
+package com.example.mateusz.astroweather2.fragments;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+import com.example.mateusz.astroweather2.fragments.SunMoonFragment;
+import com.example.mateusz.astroweather2.fragments.comboWeatherFragment;
 
+public class LandscapeSidePageAdapter extends FragmentStatePagerAdapter {
     public static final int NUM_PAGES = 2;
 
-    public ScreenSlidePagerAdapter(FragmentManager fm) {
+    public LandscapeSidePageAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -16,10 +18,10 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0: {
-                return new sunFragment();
+                return new SunMoonFragment();
             }
             case 1: {
-                return new moonFragment();
+                return new comboWeatherFragment();
             }
         }
         return null;

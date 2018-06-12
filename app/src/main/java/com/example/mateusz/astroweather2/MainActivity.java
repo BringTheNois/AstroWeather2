@@ -9,10 +9,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.mateusz.astroweather2.fragments.LandscapeSidePageAdapter;
+import com.example.mateusz.astroweather2.fragments.ScreenSlidePagerAdapter;
+
 public class MainActivity extends AppCompatActivity {
 
-    private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
+    private ViewPager portraitPhonePager;
+    private PagerAdapter portraitPhoneAdapter;
+    private ViewPager landscapePhonePager;
+    private PagerAdapter landscapePhoneAdapter;
 
     public boolean checkScreen(){
         Configuration config = getResources().getConfiguration();
@@ -32,11 +37,15 @@ public class MainActivity extends AppCompatActivity {
         if (!checkScreen()){
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 setContentView(R.layout.activity_phone_land);
+                landscapePhonePager = findViewById(R.id.viewPagerHorizontal);
+                landscapePhoneAdapter = new LandscapeSidePageAdapter(getSupportFragmentManager());
+                landscapePhonePager.setAdapter(landscapePhoneAdapter);
+
             } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
                 setContentView(R.layout.activity_main);
-                mPager = findViewById(R.id.viewPagerPortrait);
-                mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-                mPager.setAdapter(mPagerAdapter);
+                portraitPhonePager = findViewById(R.id.viewPagerPortrait);
+                portraitPhoneAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+                portraitPhonePager.setAdapter(portraitPhoneAdapter);
             }
         }else {
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -76,10 +85,10 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         Configuration config = getResources().getConfiguration();
         if (!checkScreen() && config.orientation == Configuration.ORIENTATION_PORTRAIT ){
-            if (mPager.getCurrentItem() == 0) {
+            if (portraitPhonePager.getCurrentItem() == 0) {
                 System.exit(1);
             } else {
-                mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+                portraitPhonePager.setCurrentItem(portraitPhonePager.getCurrentItem() - 1);
             }
         } else {
             super.onBackPressed();
