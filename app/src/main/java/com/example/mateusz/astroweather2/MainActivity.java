@@ -1,5 +1,6 @@
 package com.example.mateusz.astroweather2;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.view.PagerAdapter;
@@ -8,16 +9,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.mateusz.astroweather2.fragments.LandscapeSidePageAdapter;
 import com.example.mateusz.astroweather2.fragments.ScreenSlidePagerAdapter;
+import com.example.mateusz.astroweather2.yahoo.data.Channel;
+import com.example.mateusz.astroweather2.yahoo.service.WeatherServiceCallback;
+import com.example.mateusz.astroweather2.yahoo.service.YahooWeatherService;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements WeatherServiceCallback {
 
     private ViewPager portraitPhonePager;
     private PagerAdapter portraitPhoneAdapter;
     private ViewPager landscapePhonePager;
     private PagerAdapter landscapePhoneAdapter;
+    private YahooWeatherService service;
+    private ProgressDialog dialog;
 
     public boolean checkScreen(){
         Configuration config = getResources().getConfiguration();
@@ -71,12 +78,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setupView();
-    }
-
-    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         setupView();
@@ -93,5 +94,28 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setupView();
+        service = new YahooWeatherService(this);
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading...");
+        dialog.show();
+
+        service.refreshWeather("Lodz, PL");
+    }
+
+    @Override
+    public void serviceSucces(Channel channel) {
+        dialog.hide();
+    }
+
+    @Override
+    public void serviceFailure(Exception e) {
+        dialog.hide();
+        Toast.makeText(this, e.getMessage() , Toast.LENGTH_LONG).show();
     }
 }
