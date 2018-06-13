@@ -1,6 +1,8 @@
 package com.example.mateusz.astroweather2.fragments;
 
 
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,11 +13,16 @@ import android.widget.TextView;
 
 import com.example.mateusz.astroweather2.R;
 
+import java.util.Objects;
+
 public class futureWeatherFragment extends Fragment {
     private ViewGroup rootView;
-    TextView day1, temperature1, condition1,day2, temperature2, condition2,day3, temperature3, condition3,day4, temperature4, condition4,
-            day5, temperature5, condition5;
-    ImageView imageView1, imageView2, imageView3, imageView4, imageView5;
+    TextView[] day = new TextView[5];
+    TextView[] temperature = new TextView[5];
+    TextView[] condition = new TextView[5];
+    ImageView[] imageView = new ImageView[5];
+    private int resource[] = new int[5];
+    private Drawable[] weatherIconDrawable = new Drawable[5];
 
     public futureWeatherFragment() {
     }
@@ -30,30 +37,24 @@ public class futureWeatherFragment extends Fragment {
     }
 
     private void setupViews() {
-        day1 = rootView.findViewById(R.id.day1);
-        day2 = rootView.findViewById(R.id.day2);
-        day3 = rootView.findViewById(R.id.day3);
-        day4 = rootView.findViewById(R.id.day4);
-        day5 = rootView.findViewById(R.id.day5);
-        temperature1 = rootView.findViewById(R.id.temperature1);
-        temperature2 = rootView.findViewById(R.id.temperature2);
-        temperature3 = rootView.findViewById(R.id.temperature3);
-        temperature4 = rootView.findViewById(R.id.temperature4);
-        temperature5 = rootView.findViewById(R.id.temperature5);
-        condition1 = rootView.findViewById(R.id.condition1);
-        condition2 = rootView.findViewById(R.id.condition2);
-        condition3 = rootView.findViewById(R.id.condition3);
-        condition4 = rootView.findViewById(R.id.condition4);
-        condition5 = rootView.findViewById(R.id.condition5);
-        imageView1 = rootView.findViewById(R.id.img1);
-        imageView2 = rootView.findViewById(R.id.img2);
-        imageView3 = rootView.findViewById(R.id.img3);
-        imageView4 = rootView.findViewById(R.id.img4);
-        imageView5 = rootView.findViewById(R.id.img5);
+        for (int i = 0; i < 5; i++) {
+            temperature[i] = rootView.findViewById(getResources().getIdentifier("temperature" + (i +1), "id", getContext().getPackageName()));
+            day[i] = rootView.findViewById(getResources().getIdentifier("day" + (i + 1), "id", getContext().getPackageName()));
+            condition[i] = rootView.findViewById(getResources().getIdentifier("condition" + (i + 1), "id", getContext().getPackageName()));
+            imageView[i] = rootView.findViewById(getResources().getIdentifier("img" + (i + 1), "id", getContext().getPackageName()));
+        }
     }
 
     private void setData() {
-
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("weather.xml", 0);
+        for (int i = 0; i < 5; i++) {
+            resource[i] = getResources().getIdentifier("i" + sharedPref.getString("image" + (i + 1), "44"), "drawable", Objects.requireNonNull(getContext()).getPackageName());
+            weatherIconDrawable[i] = getResources().getDrawable(resource[i], null);
+            imageView[i].setImageDrawable(weatherIconDrawable[i]);
+            temperature[i].setText(sharedPref.getString("high" + (i + 1), "NULL" )+ "\u00B0" + sharedPref.getString("unit", ""));
+            day[i].setText(sharedPref.getString("day" + (i + 1), "NULL"));
+            condition[i].setText(sharedPref.getString("description" + (i + 1), "NULL"));
+        }
     }
 
 }

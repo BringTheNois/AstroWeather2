@@ -1,5 +1,6 @@
 package com.example.mateusz.astroweather2.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -98,8 +99,9 @@ public class moonFragment extends Fragment {
         hourFormat = new SimpleDateFormat("hh");
         minuteFormat = new SimpleDateFormat("mm");
     }
+    @SuppressLint("SetTextI18n")
     private void setData() {
-        moon.setText("Latitude :" + latitude + "\nLongitude: " + longitude
+        moon.setText("Longitude: " + longitude + "\nLatitude :" + latitude
                 + "\nMoonrise: " + String.valueOf(astroCalculator.getMoonInfo().getMoonrise())
                 + "\nMoonset:" + String.valueOf(astroCalculator.getMoonInfo().getMoonset())
                 + "\nNew moon:" + String.valueOf(astroCalculator.getMoonInfo().getNextNewMoon())
@@ -110,9 +112,9 @@ public class moonFragment extends Fragment {
     }
 
     private void setAstroCalculator() {
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("config.xml", 0);
-        longitude = sharedPref.getString("current_longitude", String.valueOf(getResources().getString(R.string.default_longitude)));
-        latitude = sharedPref.getString("current_latitude", String.valueOf(getResources().getString(R.string.default_latitude)));
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("weather.xml", 0);
+        longitude = sharedPref.getString("longitude", "NULL");
+        latitude = sharedPref.getString("latitude", "NULL");
         refreshTime = Integer.valueOf(sharedPref.getString("current_refresh", String.valueOf(getResources().getString(R.string.default_refresh))));
         astroDateTime = new AstroDateTime(
                 Integer.valueOf(yearFormat.format(date)),

@@ -23,8 +23,8 @@ public class windFragment extends Fragment {
     }
     private void setData(){
         SharedPreferences sharedPref = getActivity().getSharedPreferences("weather.xml", 0);
-        windStrength.setText(windStrength.getText() + sharedPref.getString("windSpeed", "NULL") + " mph");
-        windDirection.setText(windDirection.getText() + sharedPref.getString("windDirection", "NULL"));
+        windStrength.setText(windStrength.getText() + sharedPref.getString("speed", "NULL") + " mph");
+        windDirection.setText(windDirection.getText() + sharedPref.getString("direction", "NULL"));
         humidity.setText(humidity.getText() + sharedPref.getString("humidity", "NULL"));
         visibility.setText(visibility.getText() + sharedPref.getString("visibility", "NULL"));
     }

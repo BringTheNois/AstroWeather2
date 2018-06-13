@@ -1,5 +1,6 @@
 package com.example.mateusz.astroweather2.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -94,8 +95,9 @@ public class sunFragment extends Fragment {
         hourFormat = new SimpleDateFormat("hh");
         minuteFormat = new SimpleDateFormat("mm");
     }
+    @SuppressLint("SetTextI18n")
     private void setData() {
-        sun.setText("Latitude :" + latitude + "\nLongitude: " + longitude
+        sun.setText("Longitude: " + longitude + "\nLatitude :" + latitude
                 + "\nSunrise: " + String.valueOf(astroCalculator.getSunInfo().getSunrise())
                 + "\n Sunrise Azimut:" + String.valueOf(astroCalculator.getSunInfo().getAzimuthRise())
                 + "\n Sunset:" + String.valueOf(astroCalculator.getSunInfo().getSunset())
@@ -106,9 +108,9 @@ public class sunFragment extends Fragment {
     }
 
     private void setAstroCalculator() {
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("config.xml", 0);
-        longitude = sharedPref.getString("current_longitude", String.valueOf(getResources().getString(R.string.default_longitude)));
-        latitude = sharedPref.getString("current_latitude", String.valueOf(getResources().getString(R.string.default_latitude)));
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("weather.xml", 0);
+        longitude = sharedPref.getString("longitude", String.valueOf(getResources().getString(R.string.default_longitude)));
+        latitude = sharedPref.getString("latitude", String.valueOf(getResources().getString(R.string.default_latitude)));
         astroDateTime = new AstroDateTime(
                 Integer.valueOf(yearFormat.format(date)),
                 Integer.valueOf(monthFormat.format(date)),

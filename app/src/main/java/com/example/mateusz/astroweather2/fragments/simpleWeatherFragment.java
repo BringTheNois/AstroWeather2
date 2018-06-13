@@ -1,7 +1,9 @@
 package com.example.mateusz.astroweather2.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mateusz.astroweather2.R;
+
+import java.util.Objects;
 
 public class simpleWeatherFragment extends Fragment {
     private ViewGroup rootView;
@@ -29,9 +33,18 @@ public class simpleWeatherFragment extends Fragment {
         return rootView;
     }
 
+    @SuppressLint("SetTextI18n")
     private void setData() {
         SharedPreferences sharedPref = getActivity().getSharedPreferences("weather.xml", 0);
-
+        city.setText(String.format("%s", sharedPref.getString("city", "NULL")));
+        longitude.setText(sharedPref.getString("longitude" ,"NULL"));
+        latitude.setText(sharedPref.getString("latitude" ,"NULL"));
+        temperature.setText(temperature.getText()+ sharedPref.getString("current_temperature", "NULL") + "\u00B0" + sharedPref.getString("unit", ""));
+        condition.setText(sharedPref.getString("current_description", "NULL"));
+        int resource = getResources().getIdentifier("i" + sharedPref.getString("current_image", "44"), "drawable" , Objects.requireNonNull(getContext()).getPackageName());
+        Drawable weatherIconDrawable = getResources().getDrawable(resource,null);
+        weatherIcon.setImageDrawable(weatherIconDrawable);
+        pressure.setText(pressure.getText()+ String.format("%shPa", sharedPref.getString("pressure", "NULL")));
     }
 
     private void setupViews() {
@@ -41,6 +54,7 @@ public class simpleWeatherFragment extends Fragment {
         temperature = rootView.findViewById(R.id.temperature);
         pressure = rootView.findViewById(R.id.pressure);
         condition = rootView.findViewById(R.id.condition);
+        weatherIcon = rootView.findViewById(R.id.weatherIcon);
     }
 
 }

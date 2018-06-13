@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="city" />
+    <string name="direction" />
+    <string name="speed" />
+    <string name="humidity" />
+    <string name="pressure" />
+    <string name="visibility" />
+    <string name="longitude" />
+    <string name="latitude" />
+    <string name="current_image" />
+    <string name="current_date" />
+    <string name="current_temperature" />
+    <string name="current_description" />
+    <string name="image1" />
+    <string name="day1" />
+    <string name="high1" />
+    <string name="low1" />
+    <string name="description1" />
+    <string name="image2" />
+    <string name="day2" />
+    <string name="high2" />
+    <string name="low2" />
+    <string name="description2" />
+    <string name="image3" />
+    <string name="day3" />
+    <string name="high3" />
+    <string name="low3" />
+    <string name="description3" />
+    <string name="image4" />
+    <string name="day4" />
+    <string name="high4" />
+    <string name="low4" />
+    <string name="description4" />
+    <string name="image5" />
+    <string name="day5" />
+    <string name="high5" />
+    <string name="low5" />
+    <string name="description5" />
+    <string name="temperature_unit">0</string>
+    <string name="speed_unit">0</string>
+</resources>

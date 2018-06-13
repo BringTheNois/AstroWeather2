@@ -1,7 +1,7 @@
 package com.example.mateusz.astroweather2;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -13,7 +13,10 @@ import android.widget.Toast;
 
 import com.example.mateusz.astroweather2.fragments.LandscapeSidePageAdapter;
 import com.example.mateusz.astroweather2.fragments.ScreenSlidePagerAdapter;
+import com.example.mateusz.astroweather2.yahoo.data.Atmosphere;
 import com.example.mateusz.astroweather2.yahoo.data.Channel;
+import com.example.mateusz.astroweather2.yahoo.data.Item;
+import com.example.mateusz.astroweather2.yahoo.data.Wind;
 import com.example.mateusz.astroweather2.yahoo.service.WeatherServiceCallback;
 import com.example.mateusz.astroweather2.yahoo.service.YahooWeatherService;
 
@@ -24,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
     private ViewPager landscapePhonePager;
     private PagerAdapter landscapePhoneAdapter;
     private YahooWeatherService service;
-    private ProgressDialog dialog;
+    private SharedPreferences sharedPreferences;
 
     public boolean checkScreen(){
         Configuration config = getResources().getConfiguration();
@@ -100,22 +103,44 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupView();
+        sharedPreferences = getSharedPreferences("weather.xml", 0);
         service = new YahooWeatherService(this);
-        dialog = new ProgressDialog(this);
-        dialog.setMessage("Loading...");
-        dialog.show();
-
         service.refreshWeather("Lodz, PL");
     }
 
     @Override
-    public void serviceSucces(Channel channel) {
-        dialog.hide();
+    public void serviceSuccess(Channel channel) {
+        Item item = channel.getItem();
+        Atmosphere atmosphere = channel.getAtmosphere();
+        Wind wind = channel.getWind();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("longitude", item.getLongitude());
+        editor.putString("latitude", item.getLatitude());
+        editor.putString("current_image", item.getCondition().getCode());
+        editor.putString("current_date", item.getCondition().getDate());
+        editor.putString("current_temperature", item.getCondition().getTemperature());
+        editor.putString("current_description", item.getCondition().getCondition());
+        editor.putString("city", service.getLocation());
+        editor.putString("pressure", atmosphere.getPressure());
+        editor.putString("humidity", atmosphere.getHumidity());
+        editor.putString("visibility", atmosphere.getVisibility());
+        editor.putString("direction", wind.getDirection());
+        editor.putString("speed", wind.getSpeed());
+        editor.putString("unit", channel.getUnits().getTemperature());
+        for (int i = 1; i < 6; i++) {
+            editor.putString("image" + i, item.getForecast(i).getImageCode());
+            editor.putString("day" + i, item.getForecast(i).getDay());
+            editor.putString("high" + i, item.getForecast(i).getHigh());
+            editor.putString("low" + i, item.getForecast(i).getLow());
+            editor.putString("description" + i, item.getForecast(i).getCondition());
+        }
+        editor.apply();
     }
 
     @Override
     public void serviceFailure(Exception e) {
-        dialog.hide();
         Toast.makeText(this, e.getMessage() , Toast.LENGTH_LONG).show();
+        System.out.println(e.getMessage());
     }
 }
