@@ -1,5 +1,6 @@
 package com.example.mateusz.astroweather2;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -76,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
         if(id == R.id.settings){
             startActivity(new Intent(this, Settings.class));
             return true;
+        }else if(id == R.id.refresh){
+            service.refreshWeather();
+            setupView();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -83,12 +87,12 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        service.refreshWeather();
         setupView();
      }
     @Override
     public void onBackPressed() {
-        Configuration config = getResources().getConfiguration();
-        if (!checkScreen() && config.orientation == Configuration.ORIENTATION_PORTRAIT ){
+        if (!checkScreen() ){
             if (portraitPhonePager.getCurrentItem() == 0) {
                 System.exit(1);
             } else {
@@ -97,37 +101,43 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
         } else {
             super.onBackPressed();
         }
+        service.refreshWeather();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = getSharedPreferences("yahoo.xml", 0);
+        service = new YahooWeatherService(this, 0,sharedPreferences);
+        service.refreshWeather();
         setupView();
-        sharedPreferences = getSharedPreferences("weather.xml", 0);
-        service = new YahooWeatherService(this);
-        service.refreshWeather("Lodz, PL");
     }
 
     @Override
     public void serviceSuccess(Channel channel) {
+        setupView();
+        Toast.makeText(this, "Data refreshed", Toast.LENGTH_SHORT).show();
         Item item = channel.getItem();
         Atmosphere atmosphere = channel.getAtmosphere();
         Wind wind = channel.getWind();
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
+        editor.putString("city", "Lodz");
         editor.putString("longitude", item.getLongitude());
         editor.putString("latitude", item.getLatitude());
         editor.putString("current_image", item.getCondition().getCode());
         editor.putString("current_date", item.getCondition().getDate());
         editor.putString("current_temperature", item.getCondition().getTemperature());
         editor.putString("current_description", item.getCondition().getCondition());
-        editor.putString("city", service.getLocation());
+        //editor.putString("city", location.getCity());
+        //editor.putString("country", location.getCountry());
         editor.putString("pressure", atmosphere.getPressure());
         editor.putString("humidity", atmosphere.getHumidity());
         editor.putString("visibility", atmosphere.getVisibility());
         editor.putString("direction", wind.getDirection());
         editor.putString("speed", wind.getSpeed());
         editor.putString("unit", channel.getUnits().getTemperature());
+        editor.putString("speedUnit", channel.getUnits().getSpeed());
+        editor.putString("pressureUnit", channel.getUnits().getBars());
         for (int i = 1; i < 6; i++) {
             editor.putString("image" + i, item.getForecast(i).getImageCode());
             editor.putString("day" + i, item.getForecast(i).getDay());
@@ -142,5 +152,11 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
     public void serviceFailure(Exception e) {
         Toast.makeText(this, e.getMessage() , Toast.LENGTH_LONG).show();
         System.out.println(e.getMessage());
+    }
+    @Override
+    public void onRestart() {
+        service.refreshWeather();
+        setupView();
+        super.onRestart();
     }
 }

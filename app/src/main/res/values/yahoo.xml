@@ -37,6 +37,13 @@
     <string name="high5" />
     <string name="low5" />
     <string name="description5" />
-    <string name="temperature_unit">0</string>
-    <string name="speed_unit">0</string>
+    <string name="unit" />
+    <string name="default_latitude">51.761742</string>
+    <string name="default_longitude">19.46801</string>
+    <string name="default_refresh">15</string>
+    <string name="current_latitude" />
+    <string name="current_longitude" />
+    <string name="refresh">15</string>
+    <integer name="celcius">0</integer>>
+    <integer name="option">0</integer>
 </resources>

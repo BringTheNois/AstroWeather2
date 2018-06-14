@@ -1,6 +1,7 @@
 package com.example.mateusz.astroweather2.yahoo.service;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 
@@ -17,27 +18,41 @@ import java.net.URLConnection;
 
 public class YahooWeatherService {
     private WeatherServiceCallback callback;
-    private String location;
     private Exception exception;
+    private int searchOption;
+    private SharedPreferences sharedPreferences;
 
-    public YahooWeatherService(WeatherServiceCallback callback) {
+    public YahooWeatherService(WeatherServiceCallback callback, int searchOption, SharedPreferences sharedPreferences) {
         this.callback = callback;
+        this.searchOption = searchOption;
+        this.sharedPreferences = sharedPreferences;
     }
 
-    public String getLocation() {
-        return location;
-    }
 
     @SuppressLint("StaticFieldLeak")
-    public void refreshWeather(String l){
-        this.location = l;
+    public void refreshWeather(){
         new AsyncTask<String, Void, String>() {
             @Override
             protected String doInBackground(String... strings) {
-                String YQL = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%s \") and u='c'", strings[0]);
-
+                String YQL;
+                if (sharedPreferences.getInt("celcius",0)  == 0) {
+                    if (searchOption == 0) {
+                        String cityToFind = sharedPreferences.getString("city", "Lodz, PL");
+                        YQL = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%s\") and u='c'", cityToFind);
+                    } else {
+                        String coordinates = sharedPreferences.getString("latitude", "51.761742") + "," + sharedPreferences.getString("longitude", "19.46801");
+                        YQL = String.format("select * from weather.forecast where woeid in (SELECT woeid FROM geo.places WHERE text=\"(%s)\") and u='c'", coordinates);
+                    }
+                }else{
+                    if (searchOption == 0) {
+                        String cityToFind = sharedPreferences.getString("city", "Lodz, PL");
+                        YQL = String.format("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\"%s\")", cityToFind);
+                    } else {
+                        String coordinates = sharedPreferences.getString("latitude", "51.761742") + "," + sharedPreferences.getString("longitude", "19.46801");
+                        YQL = String.format("select * from weather.forecast where woeid in (SELECT woeid FROM geo.places WHERE text=\"(%s)\") ", coordinates);
+                    }
+                }
                 String endpoint = String.format("https://query.yahooapis.com/v1/public/yql?q=%s&format=json", Uri.encode(YQL));
-
                 try {
                     URL url = new URL(endpoint);
 
@@ -73,7 +88,7 @@ public class YahooWeatherService {
                     int count = queryResults.getInt("count");
 
                     if(count == 0){
-                        callback.serviceFailure(new WeatherException("Cannot find weather information for " + location));
+                        callback.serviceFailure(new WeatherException("Cannot find weather information"));
                         return;
                     }
 
@@ -85,7 +100,7 @@ public class YahooWeatherService {
                     callback.serviceFailure(e);
                 }
             }
-        }.execute(l);
+        }.execute();
     }
     public class WeatherException extends Exception {
         public WeatherException(String message) {

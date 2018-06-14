@@ -6,4 +6,10 @@
     <item
         android:id="@+id/settings"
         android:title="@string/settings"/>
+    <item
+        android:id="@+id/citySet"
+        android:title="Set City"/>
+    <item
+        android:id="@+id/refresh"
+        android:title="Refresh"/>
 </menu>

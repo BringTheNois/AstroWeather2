@@ -46,7 +46,7 @@ public class futureWeatherFragment extends Fragment {
     }
 
     private void setData() {
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("weather.xml", 0);
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("yahoo.xml", 0);
         for (int i = 0; i < 5; i++) {
             resource[i] = getResources().getIdentifier("i" + sharedPref.getString("image" + (i + 1), "44"), "drawable", Objects.requireNonNull(getContext()).getPackageName());
             weatherIconDrawable[i] = getResources().getDrawable(resource[i], null);

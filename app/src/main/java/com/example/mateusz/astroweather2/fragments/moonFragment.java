@@ -112,7 +112,7 @@ public class moonFragment extends Fragment {
     }
 
     private void setAstroCalculator() {
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("weather.xml", 0);
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("yahoo.xml", 0);
         longitude = sharedPref.getString("longitude", "NULL");
         latitude = sharedPref.getString("latitude", "NULL");
         refreshTime = Integer.valueOf(sharedPref.getString("current_refresh", String.valueOf(getResources().getString(R.string.default_refresh))));

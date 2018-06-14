@@ -5,4 +5,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="settings">Settings</string>
     <string name="wind_strength">Wind Strength: </string>
+    <string-array name="units">
+        <item>Metric units</item>
+        <item>Imperial units</item>
+    </string-array>
+    <string-array name="speeds">
+        <item>mph</item>
+        <item>kmh</item>
+    </string-array>
 </resources>

@@ -108,9 +108,9 @@ public class sunFragment extends Fragment {
     }
 
     private void setAstroCalculator() {
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("weather.xml", 0);
-        longitude = sharedPref.getString("longitude", String.valueOf(getResources().getString(R.string.default_longitude)));
-        latitude = sharedPref.getString("latitude", String.valueOf(getResources().getString(R.string.default_latitude)));
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("yahoo.xml", 0);
+        longitude = sharedPref.getString("longitude", String.valueOf(getResources().getString(R.string.longitude)));
+        latitude = sharedPref.getString("latitude", String.valueOf(getResources().getString(R.string.latitude)));
         astroDateTime = new AstroDateTime(
                 Integer.valueOf(yearFormat.format(date)),
                 Integer.valueOf(monthFormat.format(date)),
@@ -132,7 +132,7 @@ public class sunFragment extends Fragment {
                 location
         );
 
-        refreshTime = Integer.valueOf(sharedPref.getString("current_refresh", String.valueOf(getResources().getString(R.string.default_refresh))));
+        refreshTime = Integer.valueOf(sharedPref.getString("current_refresh", String.valueOf(getResources().getString(R.string.refresh))));
     }
     private int getTimeZone() {
         Calendar c = Calendar.getInstance();

@@ -35,8 +35,8 @@ public class simpleWeatherFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void setData() {
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("weather.xml", 0);
-        city.setText(String.format("%s", sharedPref.getString("city", "NULL")));
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("yahoo.xml", 0);
+        city.setText(sharedPref.getString("city", "NULL") + ", " + sharedPref.getString("country", "NULL"));
         longitude.setText(sharedPref.getString("longitude" ,"NULL"));
         latitude.setText(sharedPref.getString("latitude" ,"NULL"));
         temperature.setText(temperature.getText()+ sharedPref.getString("current_temperature", "NULL") + "\u00B0" + sharedPref.getString("unit", ""));
@@ -44,7 +44,7 @@ public class simpleWeatherFragment extends Fragment {
         int resource = getResources().getIdentifier("i" + sharedPref.getString("current_image", "44"), "drawable" , Objects.requireNonNull(getContext()).getPackageName());
         Drawable weatherIconDrawable = getResources().getDrawable(resource,null);
         weatherIcon.setImageDrawable(weatherIconDrawable);
-        pressure.setText(pressure.getText()+ String.format("%shPa", sharedPref.getString("pressure", "NULL")));
+        pressure.setText(pressure.getText()+ String.format("%s %s", sharedPref.getString("pressure", "NULL"), sharedPref.getString("pressureUnit", "NULL")));
     }
 
     private void setupViews() {
