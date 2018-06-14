@@ -81,6 +81,10 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
         }else if(id == R.id.refresh){
             service.refreshWeather();
             setupView();
+            return true;
+        }else if(id == R.id.citySet){
+            startActivity(new Intent(this,SetCity.class));
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -102,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
         } else {
             super.onBackPressed();
         }
-        service.refreshWeather();
     }
 
     @Override
