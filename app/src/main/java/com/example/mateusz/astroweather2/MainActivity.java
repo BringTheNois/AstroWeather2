@@ -17,6 +17,7 @@ import com.example.mateusz.astroweather2.fragments.ScreenSlidePagerAdapter;
 import com.example.mateusz.astroweather2.yahoo.data.Atmosphere;
 import com.example.mateusz.astroweather2.yahoo.data.Channel;
 import com.example.mateusz.astroweather2.yahoo.data.Item;
+import com.example.mateusz.astroweather2.yahoo.data.Location;
 import com.example.mateusz.astroweather2.yahoo.data.Wind;
 import com.example.mateusz.astroweather2.yahoo.service.WeatherServiceCallback;
 import com.example.mateusz.astroweather2.yahoo.service.YahooWeatherService;
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("yahoo.xml", 0);
-        service = new YahooWeatherService(this, 0,sharedPreferences);
+        service = new YahooWeatherService(this, sharedPreferences.getInt("option", 0),sharedPreferences);
         service.refreshWeather();
         setupView();
     }
@@ -120,16 +121,20 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
         Item item = channel.getItem();
         Atmosphere atmosphere = channel.getAtmosphere();
         Wind wind = channel.getWind();
+        Location location = channel.getLocation();
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("city", "Lodz");
-        editor.putString("longitude", item.getLongitude());
-        editor.putString("latitude", item.getLatitude());
+        if(sharedPreferences.getInt("option",0)== 0){
+            editor.putString("city", "Lodz");
+            editor.putString("longitude", item.getLongitude());
+            editor.putString("latitude", item.getLatitude());
+        }else {
+            editor.putString("city", location.getCity());
+            editor.putString("country", location.getCountry());
+        }
         editor.putString("current_image", item.getCondition().getCode());
         editor.putString("current_date", item.getCondition().getDate());
         editor.putString("current_temperature", item.getCondition().getTemperature());
         editor.putString("current_description", item.getCondition().getCondition());
-        //editor.putString("city", location.getCity());
-        //editor.putString("country", location.getCountry());
         editor.putString("pressure", atmosphere.getPressure());
         editor.putString("humidity", atmosphere.getHumidity());
         editor.putString("visibility", atmosphere.getVisibility());

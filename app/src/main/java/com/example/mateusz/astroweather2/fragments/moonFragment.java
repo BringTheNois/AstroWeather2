@@ -128,8 +128,8 @@ public class moonFragment extends Fragment {
         );
 
         location = new AstroCalculator.Location(
-                Double.valueOf(longitude),
-                Double.valueOf(latitude)
+                Double.valueOf(latitude),
+                Double.valueOf(longitude)
         );
 
         astroCalculator = new AstroCalculator(

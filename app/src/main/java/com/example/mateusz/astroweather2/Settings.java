@@ -35,7 +35,7 @@ public class Settings extends AppCompatActivity {
         editor.putString("latitude", latitude.getText().toString());
         editor.putString("refresh", refresh.getText().toString());
         editor.putInt("celcius",positionTemp);
-        editor.putInt("option", 0);
+        editor.putInt("option", 1);
         editor.apply();
     }
     private boolean checkValues(){
