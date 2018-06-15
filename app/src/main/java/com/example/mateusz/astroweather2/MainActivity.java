@@ -1,6 +1,5 @@
 package com.example.mateusz.astroweather2;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -90,12 +89,6 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        service.refreshWeather();
-        setupView();
-     }
-    @Override
     public void onBackPressed() {
         if (!checkScreen() ){
             if (portraitPhonePager.getCurrentItem() == 0) {
@@ -118,8 +111,7 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
     }
 
     @Override
-    public void serviceSuccess(Channel channel) {service.refreshWeather();
-        setupView();
+    public void serviceSuccess(Channel channel) {
         Toast.makeText(this, "Data refreshed", Toast.LENGTH_SHORT).show();
         Item item = channel.getItem();
         Atmosphere atmosphere = channel.getAtmosphere();
@@ -172,18 +164,18 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
                 editor.putString("description" + i, item.getForecast(i).getCondition());
             }
         }
-
         editor.apply();
         setupView();
     }
 
     @Override
     public void serviceFailure(Exception e) {
-        Toast.makeText(this, "No internet connection! Loading old data" , Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "No internet connection! Cannot load data!" , Toast.LENGTH_LONG).show();
         System.out.println(e.getMessage());
     }
     @Override
     public void onRestart() {
+        service = new YahooWeatherService(this, sharedPreferences.getInt("option", 0),sharedPreferences);
         service.refreshWeather();
         setupView();
         super.onRestart();
