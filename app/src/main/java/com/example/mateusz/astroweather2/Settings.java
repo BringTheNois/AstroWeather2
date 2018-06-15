@@ -17,7 +17,7 @@ public class Settings extends AppCompatActivity {
     private EditText longitude, latitude, refresh;
     private Button save, defaultButton;
     private String longitudeText, latitudeText, refreshText;
-    private int positionTemp;
+    private int unitChange;
     private final static String VALUE_REGEX = "^-?\\d*\\.\\d+$|^-?\\d+$";
     private final static String TIME_REGEX = "\\d+";
     private SharedPreferences sharedPreferences;
@@ -34,7 +34,7 @@ public class Settings extends AppCompatActivity {
         editor.putString("longitude", longitude.getText().toString());
         editor.putString("latitude", latitude.getText().toString());
         editor.putString("refresh", refresh.getText().toString());
-        editor.putInt("celcius",positionTemp);
+        editor.putInt("celcius", unitChange);
         editor.putInt("option", 1);
         editor.apply();
     }
@@ -83,12 +83,12 @@ public class Settings extends AppCompatActivity {
         spinnerTemperature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                positionTemp = position;
+                unitChange = position;
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                parent.setSelection(positionTemp);
+                parent.setSelection(unitChange);
             }
         });
         loadConfig();
@@ -120,7 +120,7 @@ public class Settings extends AppCompatActivity {
         longitudeText = sharedPreferences.getString("longitude", String.valueOf(getResources().getString(R.string.longitude)));
         latitudeText = sharedPreferences.getString("latitude", String.valueOf(getResources().getString(R.string.latitude)));
         refreshText = sharedPreferences.getString("refresh", String.valueOf(getResources().getString(R.string.refresh)));
-        positionTemp = sharedPreferences.getInt("celcius", 0);
+        unitChange = sharedPreferences.getInt("celcius", 0);
         loadValues();
     }
 
@@ -128,7 +128,7 @@ public class Settings extends AppCompatActivity {
         longitudeText = sharedPreferences.getString(configType + "longitude", String.valueOf(getResources().getString(R.string.default_longitude)));
         latitudeText = sharedPreferences.getString(configType + "latitude", String.valueOf(getResources().getString(R.string.default_latitude)));
         refreshText = sharedPreferences.getString(configType + "refresh", String.valueOf(getResources().getString(R.string.default_refresh)));
-        positionTemp = sharedPreferences.getInt("celcius", 0);
+        unitChange = sharedPreferences.getInt("celcius", 0);
         loadValues();
     }
 

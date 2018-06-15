@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
     }
 
     @Override
-    public void serviceSuccess(Channel channel) {
+    public void serviceSuccess(Channel channel) {service.refreshWeather();
         setupView();
         Toast.makeText(this, "Data refreshed", Toast.LENGTH_SHORT).show();
         Item item = channel.getItem();
@@ -127,38 +127,59 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
         Location location = channel.getLocation();
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if(sharedPreferences.getInt("option",0)== 0){
-            editor.putString("city", "Lodz");
             editor.putString("longitude", item.getLongitude());
             editor.putString("latitude", item.getLatitude());
+            editor.putString("country", location.getCountry());
+            editor.putString("current_image", item.getCondition().getCode());
+            editor.putString("current_date", item.getCondition().getDate());
+            editor.putString("current_temperature", item.getCondition().getTemperature());
+            editor.putString("current_description", item.getCondition().getCondition());
+            editor.putString("pressure", atmosphere.getPressure());
+            editor.putString("humidity", atmosphere.getHumidity());
+            editor.putString("visibility", atmosphere.getVisibility());
+            editor.putString("direction", wind.getDirection());
+            editor.putString("speed", wind.getSpeed());
+            editor.putString("unit", channel.getUnits().getTemperature());
+            editor.putString("speedUnit", channel.getUnits().getSpeed());
+            editor.putString("pressureUnit", channel.getUnits().getBars());
+            for (int i = 1; i < 6; i++) {
+                editor.putString("image" + i, item.getForecast(i).getImageCode());
+                editor.putString("day" + i, item.getForecast(i).getDay());
+                editor.putString("high" + i, item.getForecast(i).getHigh());
+                editor.putString("low" + i, item.getForecast(i).getLow());
+                editor.putString("description" + i, item.getForecast(i).getCondition());
+            }
         }else {
             editor.putString("city", location.getCity());
             editor.putString("country", location.getCountry());
+            editor.putString("current_image", item.getCondition().getCode());
+            editor.putString("current_date", item.getCondition().getDate());
+            editor.putString("current_temperature", item.getCondition().getTemperature());
+            editor.putString("current_description", item.getCondition().getCondition());
+            editor.putString("pressure", atmosphere.getPressure());
+            editor.putString("humidity", atmosphere.getHumidity());
+            editor.putString("visibility", atmosphere.getVisibility());
+            editor.putString("direction", wind.getDirection());
+            editor.putString("speed", wind.getSpeed());
+            editor.putString("unit", channel.getUnits().getTemperature());
+            editor.putString("speedUnit", channel.getUnits().getSpeed());
+            editor.putString("pressureUnit", channel.getUnits().getBars());
+            for (int i = 1; i < 6; i++) {
+                editor.putString("image" + i, item.getForecast(i).getImageCode());
+                editor.putString("day" + i, item.getForecast(i).getDay());
+                editor.putString("high" + i, item.getForecast(i).getHigh());
+                editor.putString("low" + i, item.getForecast(i).getLow());
+                editor.putString("description" + i, item.getForecast(i).getCondition());
+            }
         }
-        editor.putString("current_image", item.getCondition().getCode());
-        editor.putString("current_date", item.getCondition().getDate());
-        editor.putString("current_temperature", item.getCondition().getTemperature());
-        editor.putString("current_description", item.getCondition().getCondition());
-        editor.putString("pressure", atmosphere.getPressure());
-        editor.putString("humidity", atmosphere.getHumidity());
-        editor.putString("visibility", atmosphere.getVisibility());
-        editor.putString("direction", wind.getDirection());
-        editor.putString("speed", wind.getSpeed());
-        editor.putString("unit", channel.getUnits().getTemperature());
-        editor.putString("speedUnit", channel.getUnits().getSpeed());
-        editor.putString("pressureUnit", channel.getUnits().getBars());
-        for (int i = 1; i < 6; i++) {
-            editor.putString("image" + i, item.getForecast(i).getImageCode());
-            editor.putString("day" + i, item.getForecast(i).getDay());
-            editor.putString("high" + i, item.getForecast(i).getHigh());
-            editor.putString("low" + i, item.getForecast(i).getLow());
-            editor.putString("description" + i, item.getForecast(i).getCondition());
-        }
+
         editor.apply();
+        setupView();
     }
 
     @Override
     public void serviceFailure(Exception e) {
-        Toast.makeText(this, e.getMessage() , Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "No internet connection! Loading old data" , Toast.LENGTH_LONG).show();
         System.out.println(e.getMessage());
     }
     @Override

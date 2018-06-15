@@ -42,4 +42,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         Cursor data = db.rawQuery(query,null);
         return data;
     }
+
+    public void delete(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "Delete from " + tableName + " where " + cityName + " ='"+ name + "'";
+        db.execSQL(query);
+    }
 }
