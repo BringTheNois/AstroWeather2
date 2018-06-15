@@ -6,8 +6,8 @@
     <string name="humidity" />
     <string name="pressure" />
     <string name="visibility" />
-    <string name="longitude" />
-    <string name="latitude" />
+    <string name="longitude" >19</string>
+    <string name="latitude" >52</string>
     <string name="current_image" />
     <string name="current_date" />
     <string name="current_temperature" />

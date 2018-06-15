@@ -36,9 +36,9 @@ public class simpleWeatherFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     private void setData() {
         SharedPreferences sharedPref = getActivity().getSharedPreferences("yahoo.xml", 0);
-        city.setText(sharedPref.getString("city", "NULL"));
-        longitude.setText(sharedPref.getString("longitude" ,"NULL"));
-        latitude.setText(sharedPref.getString("latitude" ,"NULL"));
+        city.setText(sharedPref.getString("city", "Lodz"));
+        longitude.setText(sharedPref.getString("longitude" ,"51"));
+        latitude.setText(sharedPref.getString("latitude" ,"19"));
         temperature.setText(temperature.getText()+ sharedPref.getString("current_temperature", "NULL") + "\u00B0" + sharedPref.getString("unit", ""));
         condition.setText(sharedPref.getString("current_description", "NULL"));
         int resource = getResources().getIdentifier("i" + sharedPref.getString("current_image", "44"), "drawable" , Objects.requireNonNull(getContext()).getPackageName());
