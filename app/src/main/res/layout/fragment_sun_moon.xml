@@ -17,13 +17,15 @@
             android:name="com.example.mateusz.astroweather2.fragments.sunFragment"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0.5" />
+            android:layout_weight="0.5"
+            tools:layout="@layout/fragment_sun" />
 
         <fragment
             android:id="@+id/fragment6"
             android:name="com.example.mateusz.astroweather2.fragments.moonFragment"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0.5" />
+            android:layout_weight="0.5"
+            tools:layout="@layout/fragment_moon" />
     </LinearLayout>
 </FrameLayout>

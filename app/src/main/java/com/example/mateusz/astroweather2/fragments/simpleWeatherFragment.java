@@ -20,6 +20,7 @@ public class simpleWeatherFragment extends Fragment {
     private ViewGroup rootView;
     private TextView city, longitude, latitude, temperature, pressure, condition;
     ImageView weatherIcon;
+    SharedPreferences sharedPref;
 
     public simpleWeatherFragment() {
     }
@@ -28,6 +29,7 @@ public class simpleWeatherFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_simple_weather, container, false);
+        sharedPref = getActivity().getSharedPreferences("yahoo.xml", 0);
         setupViews();
         setData();
         return rootView;
@@ -35,7 +37,6 @@ public class simpleWeatherFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void setData() {
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("yahoo.xml", 0);
         city.setText(sharedPref.getString("city", "Lodz"));
         longitude.setText(sharedPref.getString("longitude" ,"51"));
         latitude.setText(sharedPref.getString("latitude" ,"19"));

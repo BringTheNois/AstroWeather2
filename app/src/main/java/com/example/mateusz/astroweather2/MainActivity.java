@@ -11,8 +11,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+
 import com.example.mateusz.astroweather2.fragments.LandscapeSidePageAdapter;
 import com.example.mateusz.astroweather2.fragments.ScreenSlidePagerAdapter;
+import com.example.mateusz.astroweather2.fragments.TabletPageAdapter;
 import com.example.mateusz.astroweather2.yahoo.data.Atmosphere;
 import com.example.mateusz.astroweather2.yahoo.data.Channel;
 import com.example.mateusz.astroweather2.yahoo.data.Item;
@@ -29,6 +31,10 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
     private PagerAdapter landscapePhoneAdapter;
     private YahooWeatherService service;
     private SharedPreferences sharedPreferences;
+    private ViewPager portraitTabletPager;
+    private PagerAdapter portraitTabletAdapter;
+    private ViewPager portraitTabletLPager;
+    private PagerAdapter portraitTabletLAdapter;
 
     public boolean checkScreen(){
         Configuration config = getResources().getConfiguration();
@@ -61,8 +67,14 @@ public class MainActivity extends AppCompatActivity implements WeatherServiceCal
         }else {
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 setContentView(R.layout.activity_tablet_land);
+                portraitTabletLPager = findViewById(R.id.viewTabletL);
+                portraitTabletLAdapter = new TabletPageAdapter(getSupportFragmentManager());
+                portraitTabletLPager.setAdapter(portraitTabletLAdapter);
             } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
                 setContentView(R.layout.activity_tablet_portrait);
+                portraitTabletPager = findViewById(R.id.viewTablet);
+                portraitTabletAdapter = new TabletPageAdapter(getSupportFragmentManager());
+                portraitTabletPager.setAdapter(portraitTabletAdapter);
             }
         }
     }
